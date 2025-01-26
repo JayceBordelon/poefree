@@ -8,3 +8,5 @@ export type ResponseData = {
     payload?: any;
     errorMessage?: string;
 };
+
+export type ServerResponse = Omit<ResponseData, 'res'>;

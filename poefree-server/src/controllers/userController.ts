@@ -3,6 +3,7 @@ import prisma from '../config/db';
 import { successResponse, errorResponse } from '../utils/responseHandler';
 import { StatusCodes } from 'http-status-codes';
 import bcrypt from 'bcrypt';
+import { CreateUserPayload } from '../types/payloads/userPayloads';
 
 /**
  * Fetches all users from the database.
@@ -71,7 +72,7 @@ export const getUsers = async (req: Request, res: Response) => {
  */
 export const createUser = async (req: Request, res: Response) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password } = req.body as CreateUserPayload;
 
         if (!name || !email || !password) {
             return errorResponse({

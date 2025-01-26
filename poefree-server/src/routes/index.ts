@@ -1,8 +1,6 @@
 import { Router } from 'express';
 import userRoutes from './userRoutes';
 import poemRoutes from './poemRoutes';
-import { successResponse } from '../utils/responseHandler';
-import { StatusCodes } from 'http-status-codes';
 
 const router = Router();
 
