@@ -1,1 +1,1 @@
-export { User, Poem, Comment } from '@prisma/client';
+export { User, Poem, Comment } from "@prisma/client";

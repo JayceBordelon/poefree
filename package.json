@@ -1,6 +1,9 @@
 {
-    "scripts": {
-        "poefree": "docker-compose down && docker-compose up --build",
-        "git-synch": "git add . && git commit -am 'git synch' && git push"
-    }
+  "scripts": {
+    "poefree": "docker-compose down && docker-compose up --build",
+    "git-synch": "prettier --write . && git add . && git commit -am 'git synch' && git push"
+  },
+  "dependencies": {
+    "prettier": "^3.4.2"
+  }
 }

@@ -1,9 +1,9 @@
-import express from 'express';
-import { createPoem, deletePoem } from '../controllers/poemController';
+import express from "express";
+import { createPoem, deletePoem } from "../controllers/poemController";
 
 const router = express.Router();
 
-router.post('/', createPoem);
-router.delete('/:id', deletePoem);
+router.post("/", createPoem);
+router.delete("/:id", deletePoem);
 
 export default router;
