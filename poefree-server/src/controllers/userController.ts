@@ -1,9 +1,9 @@
-import { Request, Response } from 'express';
-import prisma from '../config/db';
-import { successResponse, errorResponse } from '../utils/responseHandler';
-import { StatusCodes } from 'http-status-codes';
-import bcrypt from 'bcrypt';
-import { CreateUserPayload } from '../types/payloads/userPayloads';
+import { Request, Response } from "express";
+import prisma from "../config/db";
+import { successResponse, errorResponse } from "../utils/responseHandler";
+import { StatusCodes } from "http-status-codes";
+import bcrypt from "bcrypt";
+import { CreateUserPayload } from "../types/payloads/userPayloads";
 
 /**
  * Fetches all users from the database.
@@ -31,21 +31,21 @@ export const getUsers = async (req: Request, res: Response) => {
       return errorResponse({
         res,
         statusCode: StatusCodes.NOT_FOUND,
-        errorMessage: 'No users found',
+        errorMessage: "No users found",
       });
     }
 
     successResponse({
       res,
       statusCode: StatusCodes.OK,
-      message: 'Users fetched successfully',
+      message: "Users fetched successfully",
       payload: users,
     });
   } catch (error) {
     errorResponse({
       res,
       statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-      errorMessage: 'Failed to fetch users',
+      errorMessage: "Failed to fetch users",
     });
   }
 };
@@ -78,7 +78,7 @@ export const createUser = async (req: Request, res: Response) => {
       return errorResponse({
         res,
         statusCode: StatusCodes.BAD_REQUEST,
-        errorMessage: 'Name, email, and password are required',
+        errorMessage: "Name, email, and password are required",
       });
     }
 
@@ -93,21 +93,24 @@ export const createUser = async (req: Request, res: Response) => {
     successResponse({
       res,
       statusCode: StatusCodes.CREATED,
-      message: 'User created successfully',
+      message: "User created successfully",
       payload: userWithoutPassword,
     });
   } catch (error) {
-    if (error instanceof Error && error.message.includes('Unique constraint failed')) {
+    if (
+      error instanceof Error &&
+      error.message.includes("Unique constraint failed")
+    ) {
       return errorResponse({
         res,
         statusCode: StatusCodes.CONFLICT,
-        errorMessage: 'Email already exists',
+        errorMessage: "Email already exists",
       });
     }
     errorResponse({
       res,
       statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-      errorMessage: 'Failed to create user',
+      errorMessage: "Failed to create user",
     });
   }
 };
@@ -130,7 +133,7 @@ export const deleteAllUsers = async (req: Request, res: Response) => {
       return errorResponse({
         res,
         statusCode: StatusCodes.NOT_FOUND,
-        errorMessage: 'No users to delete',
+        errorMessage: "No users to delete",
       });
     }
 
@@ -143,7 +146,7 @@ export const deleteAllUsers = async (req: Request, res: Response) => {
     errorResponse({
       res,
       statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-      errorMessage: 'Failed to delete users',
+      errorMessage: "Failed to delete users",
     });
   }
 };
