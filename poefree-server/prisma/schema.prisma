@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  name      String
+  email     String    @unique
+  password  String    // Hashed password
+  createdAt DateTime  @default(now())
+  poems     Poem[]    // One-to-many relationship with Poem
+  comments  Comment[] // One-to-many relationship with Comment
+}
+
+model Poem {
+  id         Int       @id @default(autoincrement())
+  title      String
+  content    String    // A super large HTML string
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  published  Boolean   @default(false)
+  likes      Int       @default(0)
+  views      Int       @default(0)
+  creator    User      @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  creatorId  Int
+  comments   Comment[] // One-to-many relationship with Comment
+}
+
+model Comment {
+  id         Int       @id @default(autoincrement())
+  content    String
+  likes      Int       @default(0)
+  downvotes  Int       @default(0)
+  createdAt  DateTime  @default(now())
+
+  // Self-referential relationship for replies
+  parent     Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  parentId   Int?
+  replies    Comment[] @relation("CommentReplies")
+
+  // Relationship to Poem
+  poem       Poem      @relation(fields: [poemId], references: [id], onDelete: Cascade)
+  poemId     Int
+
+  // Relationship to User (comment creator)
+  creator    User      @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  creatorId  Int
+}
