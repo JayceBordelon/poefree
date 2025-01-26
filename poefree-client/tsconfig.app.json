@@ -20,7 +20,9 @@
         "noUnusedParameters": true,
         "noImplicitAny": true,
         "strictNullChecks": true,
-        "noFallthroughCasesInSwitch": true
+        "noFallthroughCasesInSwitch": true,
+
+        "paths": { "@backend/*": ["../poefree-server/src/types/*"] }
     },
     "include": ["src"]
 }

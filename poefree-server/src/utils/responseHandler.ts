@@ -1,13 +1,5 @@
-import { Response } from 'express';
-import { StatusCodes, getReasonPhrase } from 'http-status-codes';
-
-export type ResponseData = {
-    res: Response;
-    statusCode: StatusCodes;
-    message?: string;
-    payload?: any;
-    errorMessage?: string;
-};
+import { getReasonPhrase } from 'http-status-codes';
+import { ResponseData } from '../types/responseTypes';
 
 // Function to handle success responses
 export const successResponse = (responseData: ResponseData) => {

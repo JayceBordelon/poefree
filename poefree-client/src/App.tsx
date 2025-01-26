@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import { getAllUsers } from './api/user';
+import { User } from '@backend/prismaTypes';
 
 function App() {
-    const [users, setUsers] = useState([]);
+    const [users, setUsers] = useState<User[]>([]);
     useEffect(() => {
-        getAllUsers()
-            .then((res) => res.payload)
-            .then((payload) => setUsers(payload));
+        getAllUsers().then((payload) => setUsers(payload));
     }, []);
-    return <>{users.length > 0 && users.map((user) => <p>{user?.id}</p>)}</>;
+
+    return users ? <p>{JSON.stringify(users)}</p> : <h1>Uh Oh</h1>;
 }
 
 export default App;

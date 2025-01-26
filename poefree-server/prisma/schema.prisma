@@ -38,16 +38,13 @@ model Comment {
   downvotes  Int       @default(0)
   createdAt  DateTime  @default(now())
 
-  // Self-referential relationship for replies
   parent     Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
   parentId   Int?
   replies    Comment[] @relation("CommentReplies")
 
-  // Relationship to Poem
   poem       Poem      @relation(fields: [poemId], references: [id], onDelete: Cascade)
   poemId     Int
 
-  // Relationship to User (comment creator)
   creator    User      @relation(fields: [creatorId], references: [id], onDelete: Cascade)
   creatorId  Int
 }
