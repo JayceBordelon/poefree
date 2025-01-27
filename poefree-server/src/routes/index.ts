@@ -1,12 +1,12 @@
 import { Router } from "express";
-import userRoutes from "./userRoutes";
+import authRoutes from "./authRoutes";
 import poemRoutes from "./poemRoutes";
 
 const router = Router();
 router.get("/health", (req, res) => {
   res.sendStatus(200);
 });
-router.use("/users", userRoutes);
-router.use("/poems", poemRoutes);
+router.use("/auth", authRoutes);
+router.use("/poem", poemRoutes);
 
 export default router;

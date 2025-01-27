@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { ServerResponse } from "@backend/responseTypes";
+import { ServerResponse } from "../../../poefree-server/src/types/responseTypes";
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL,

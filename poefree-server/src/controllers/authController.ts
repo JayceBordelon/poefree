@@ -3,49 +3,80 @@ import prisma from "../config/db";
 import { successResponse, errorResponse } from "../utils/responseHandler";
 import { StatusCodes } from "http-status-codes";
 import bcryptjs from "bcryptjs";
-import { CreateUserPayload } from "../types/payloads/userPayloads";
+import { CreateUserPayload } from "../types/payloads/authPaylods";
+import { generateToken } from "../utils/auth";
+import { User } from "@prisma/client";
 
 /**
- * Fetches all users from the database.
+ * Logs in a user by validating their credentials.
  *
- * @param req - The HTTP request object.
+ * @param req - The HTTP request object. Expects a JSON body with `email` and `password` fields.
  * @param res - The HTTP response object.
  *
- * @returns A JSON array of user objects if successful, excluding sensitive fields like passwords.
+ * @returns A JSON object containing the user object (excluding the password) if successful.
  *
- * @throws {500} Internal Server Error - If there is a problem accessing the database.
- * @throws {404} Not Found - If no users are found.
+ * @example
+ *  Request body:
+ *  {
+ *    "email": "john.doe@example.com",
+ *    "password": "mypassword123"
+ *  }
+ *
+ * @throws {400} Bad Request - If `email` or `password` is missing in the request body.
+ * @throws {404} Not Found - If the user is not found.
+ * @throws {401} Unauthorized - If the password does not match the stored hash.
  */
-export const getUsers = async (req: Request, res: Response) => {
+export const loginUser = async (req: Request, res: Response) => {
   try {
-    const users = await prisma.user.findMany({
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        createdAt: true,
-      },
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return errorResponse({
+        res,
+        statusCode: StatusCodes.BAD_REQUEST,
+        errorMessage: "Email and password are required",
+      });
+    }
+
+    const user: User | null = await prisma.user.findUnique({
+      where: { email },
     });
 
-    if (!users.length) {
+    if (!user) {
       return errorResponse({
         res,
         statusCode: StatusCodes.NOT_FOUND,
-        errorMessage: "No users found",
+        errorMessage: "User not found",
       });
     }
+
+    const isPasswordValid: boolean = await bcryptjs.compare(
+      password,
+      user.password,
+    );
+
+    if (!isPasswordValid) {
+      return errorResponse({
+        res,
+        statusCode: StatusCodes.UNAUTHORIZED,
+        errorMessage: "Invalid credentials",
+      });
+    }
+    const token: string = generateToken(user.id);
+
+    const { password: _, ...userWithoutPassword } = user;
 
     successResponse({
       res,
       statusCode: StatusCodes.OK,
-      message: "Users fetched successfully",
-      payload: users,
+      message: "Login successful",
+      payload: { user: userWithoutPassword, token },
     });
   } catch (error) {
     errorResponse({
       res,
       statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-      errorMessage: "Failed to fetch users",
+      errorMessage: "Failed to log in",
     });
   }
 };
@@ -56,7 +87,7 @@ export const getUsers = async (req: Request, res: Response) => {
  * @param req - The HTTP request object. Expects a JSON body with `name`, `email`, and `password` fields.
  * @param res - The HTTP response object.
  *
- * @returns A JSON object representing the newly created user if successful, or an error message if the creation fails.
+ * @returns A JSON object representing the newly created user if successful, excluding the password.
  *
  * @example
  *  Request body:
@@ -74,11 +105,11 @@ export const createUser = async (req: Request, res: Response) => {
   try {
     const { name, email, password } = req.body as CreateUserPayload;
 
-    if (!name || !email || !password) {
+    if (!email || !password) {
       return errorResponse({
         res,
         statusCode: StatusCodes.BAD_REQUEST,
-        errorMessage: "Name, email, and password are required",
+        errorMessage: "Email, and password are required",
       });
     }
 
@@ -105,48 +136,13 @@ export const createUser = async (req: Request, res: Response) => {
         res,
         statusCode: StatusCodes.CONFLICT,
         errorMessage: "Email already exists",
+        causes: error.message,
       });
     }
     errorResponse({
       res,
       statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
       errorMessage: "Failed to create user",
-    });
-  }
-};
-
-/**
- * Deletes all users from the database.
- *
- * @param req - The HTTP request object.
- * @param res - The HTTP response object.
- *
- * @returns A success message if users are deleted or an error message if no users exist or the deletion fails.
- *
- * @throws {500} Internal Server Error - If there is a problem accessing the database.
- */
-export const deleteAllUsers = async (req: Request, res: Response) => {
-  try {
-    const deletedUsers = await prisma.user.deleteMany();
-
-    if (deletedUsers.count === 0) {
-      return errorResponse({
-        res,
-        statusCode: StatusCodes.NOT_FOUND,
-        errorMessage: "No users to delete",
-      });
-    }
-
-    successResponse({
-      res,
-      statusCode: StatusCodes.OK,
-      message: `${deletedUsers.count} user(s) deleted successfully`,
-    });
-  } catch (error) {
-    errorResponse({
-      res,
-      statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-      errorMessage: "Failed to delete users",
     });
   }
 };

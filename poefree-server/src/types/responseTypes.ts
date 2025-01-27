@@ -7,10 +7,14 @@ export type ResponseData = {
   message?: string;
   payload?: any;
   errorMessage?: string;
+  causes?: any;
 };
 
 export type ServerResponse = Omit<ResponseData, "res">;
 
 export type ServerErrorResponse = Omit<ServerResponse, "message" | "payload">;
 
-export type ServerSuccessResponse = Omit<ServerResponse, "errorMessage">;
+export type ServerSuccessResponse = Omit<
+  ServerResponse,
+  "errorMessage" | "causes"
+>;

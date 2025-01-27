@@ -16,10 +16,11 @@ export const successResponse = (responseData: ResponseData) => {
 };
 
 export const errorResponse = (responseData: ResponseData) => {
-  const { res, statusCode, errorMessage } = responseData;
+  const { res, statusCode, errorMessage, causes } = responseData;
   const formalResponse: ServerErrorResponse = {
     statusCode: statusCode,
     errorMessage,
+    causes,
   };
   console.error(formalResponse);
   res.status(statusCode).json(formalResponse);
