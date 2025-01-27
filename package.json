@@ -1,7 +1,7 @@
 {
   "scripts": {
     "poefree": "docker-compose down && docker-compose up --build",
-    "git-synch": "prettier --write . && git add . && git commit -am 'git synch' && git push"
+    "git-synch": "docker-compose down && prettier --write . && git add . && git commit -am 'git synch' && git push"
   },
   "dependencies": {
     "prettier": "^3.4.2"
