@@ -2,8 +2,6 @@ import { Request, Response, NextFunction } from "express";
 import { validationResult, check } from "express-validator";
 import { errorResponse } from "../utils/responseHandler";
 import { StatusCodes } from "http-status-codes";
-import { ServerErrorResponse } from "../types/responseTypes";
-
 export const validateAndSanitize = [
   (req: Request, res: Response, next: NextFunction): void => {
     const validators = [];
