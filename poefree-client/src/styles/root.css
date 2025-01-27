@@ -1,5 +1,22 @@
-@import url('./reset.css');
+@import url("./common/reset.css");
+/* Generic styles (Most of the styling) */
+@import url("./compoents/Interface/button.css");
+@import url("./compoents/Interface/footer.css");
+@import url("./compoents/Interface/form.css");
+@import url("./compoents/Interface/layout.css");
+@import url("./compoents/Interface/navbar.css");
+/* Page Specs */
+@import url("./compoents/Auth/auth.css");
 
 :root {
-  --main-bg: rgb(233, 233, 233);
+  --bg-color: #f5f5f5;
+  --primary-color: #85a98f;
+  --primary-hover-color: #5a6c57;
+  --primary-active-color: #d3f1df;
+  --text-color: #333333;
+  --border-color: rgb(20, 20, 20);
+  --xs-shadow: 0 0 2px rgba(0, 0, 0, 0.05);
+  --md-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --xl-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  --desktop-gutter: 3rem;
 }
