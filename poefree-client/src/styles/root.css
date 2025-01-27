@@ -1,0 +1,5 @@
+@import url('./reset.css');
+
+:root {
+  --main-bg: rgb(233, 233, 233);
+}
