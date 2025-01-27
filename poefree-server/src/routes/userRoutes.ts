@@ -9,6 +9,7 @@ const router = Router();
 
 router.get("/", getUsers);
 router.post("/", createUser);
+// Test Only
 router.delete("/", deleteAllUsers);
 
 export default router;
