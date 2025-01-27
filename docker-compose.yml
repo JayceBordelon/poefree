@@ -1,6 +1,6 @@
 services:
   server:
-    container_name: poefree-server
+    container_name: server
     build:
       context: ./poefree-server
       dockerfile: Dockerfile
@@ -14,7 +14,7 @@ services:
 
   postgres:
     image: postgres:15
-    container_name: psql
+    container_name: database
     restart: always
     environment:
       POSTGRES_USER: jaycebordelon
@@ -24,6 +24,14 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+
+  client:
+    container_name: client
+    build:
+      context: ./poefree-client
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
 
 volumes:
   postgres_data:
