@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import prisma from "../config/db";
 import { successResponse, errorResponse } from "../utils/responseHandler";
 import { StatusCodes } from "http-status-codes";
-import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 import { CreateUserPayload } from "../types/payloads/userPayloads";
 
 /**
@@ -59,12 +59,12 @@ export const getUsers = async (req: Request, res: Response) => {
  * @returns A JSON object representing the newly created user if successful, or an error message if the creation fails.
  *
  * @example
- * // Request body:
- * // {
- * //   "name": "John Doe",
- * //   "email": "john.doe@example.com",
- * //   "password": "mypassword123"
- * // }
+ *  Request body:
+ *  {
+ *    "name": "John Doe",
+ *    "email": "john.doe@example.com",
+ *    "password": "mypassword123"
+ *  }
  *
  * @throws {400} Bad Request - If `name`, `email`, or `password` is missing in the request body.
  * @throws {409} Conflict - If the email already exists in the database.
@@ -82,7 +82,7 @@ export const createUser = async (req: Request, res: Response) => {
       });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcryptjs.hash(password, 10);
 
     const newUser = await prisma.user.create({
       data: { name, email, password: hashedPassword },

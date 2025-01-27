@@ -1,23 +1,23 @@
-# Dockerfile
 
-FROM node:18
+FROM node:18-alpine
 
-# Install OpenSSL
-RUN apt-get update && apt-get install -y openssl
 
-# Set working directory
 WORKDIR /app
 
-# Copy package files
+
 COPY package*.json ./
 
-# Install dependencies
+
 RUN npm install
 
-# Copy application code
+
 COPY . .
 
-RUN npm run dev
 
-# Expose the server port
+RUN npx prisma generate
+
+
+CMD ["npm", "run", "dev"]
+
+
 EXPOSE 4000

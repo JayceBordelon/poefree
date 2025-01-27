@@ -4,7 +4,6 @@ import {
   ServerSuccessResponse,
 } from "../types/responseTypes";
 
-// Function to handle success responses
 export const successResponse = (responseData: ResponseData) => {
   const { res, statusCode, message, payload } = responseData;
   const formalResponse: ServerSuccessResponse = {
@@ -16,7 +15,6 @@ export const successResponse = (responseData: ResponseData) => {
   res.status(statusCode).json(formalResponse);
 };
 
-// Function to handle error responses
 export const errorResponse = (responseData: ResponseData) => {
   const { res, statusCode, errorMessage } = responseData;
   const formalResponse: ServerErrorResponse = {

@@ -12,7 +12,7 @@ import { StatusCodes } from "http-status-codes";
  * @returns The newly created poem if successful, or an error message if the creation fails.
  *
  * @example
- * // Request body:
+ *  Request body:
  * {
  *   "title": "My First Poem",
  *   "content": "<p>This is my poem content</p>",
@@ -66,7 +66,7 @@ export const createPoem = async (req: Request, res: Response) => {
  * @returns A success message if the poem is deleted, or an error message if the deletion fails.
  *
  * @example
- * // Route: DELETE /api/poems/:id
+ *  Route: DELETE /api/poems/:id
  */
 export const deletePoem = async (req: Request, res: Response) => {
   try {

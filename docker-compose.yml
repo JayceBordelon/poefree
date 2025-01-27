@@ -1,0 +1,29 @@
+services:
+  server:
+    container_name: poefree-server
+    build:
+      context: ./poefree-server
+      dockerfile: Dockerfile
+    environment:
+      - DATABASE_URL=postgresql://jaycebordelon:1234@postgres:5432/poefree_db
+    ports:
+      - "4000:4000"
+    depends_on:
+      - postgres
+    command: sh -c "npx prisma migrate deploy && npm run dev"
+
+  postgres:
+    image: postgres:15
+    container_name: psql
+    restart: always
+    environment:
+      POSTGRES_USER: jaycebordelon
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: poefree_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
