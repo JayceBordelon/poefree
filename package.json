@@ -4,6 +4,7 @@
     "git-synch": "docker-compose down && prettier --write . && git add . && git commit -am 'git synch' && git push"
   },
   "dependencies": {
+    "lorem-ipsum": "^2.0.8",
     "prettier": "^3.4.2"
   }
 }

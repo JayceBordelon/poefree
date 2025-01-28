@@ -1,0 +1,10 @@
+.logo {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+}
+
+.logo h1,
+.logo {
+  color: var(--primary-color);
+}

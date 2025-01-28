@@ -1,0 +1,20 @@
+:root {
+  --header-font: "Lora", serif;
+  --text-font: "Open Sans", sans-serif;
+  --bg-color: rgb(238, 238, 238);
+  --primary-color: rgb(255, 159, 90);
+  --text-color: rgb(52, 52, 52);
+  --border-chill: solid 1px var(--text-color);
+  /* Padding */
+  --p-xxs: 0.25rem; /* Extra-extra-small */
+  --p-xs: 0.5rem; /* Extra-small */
+  --p-sm: 1rem; /* Small */
+  --p-md: 1.5rem; /* Medium */
+  --p-lg: 2rem; /* Large */
+  --p-xl: 3rem; /* Extra-large */
+  --p-xxl: 4rem; /* Extra-extra-large */
+  --p-xxxl: 6rem; /* Triple-extra-large */
+
+  /* Nav Styles */
+  --nav-height: 3rem;
+}

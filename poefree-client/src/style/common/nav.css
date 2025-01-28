@@ -1,0 +1,22 @@
+#poefree-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+  height: var(--nav-height);
+  padding: var(--p-xl) var(--p-xxxl) var(--p-xl) var(--p-xxxl);
+  border-bottom: var(--border-chill);
+}
+
+#poefree-navigation .nav-links {
+  display: flex;
+  justify-content: space-between;
+  width: 400px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--text-color);
+  font-family: var(--header-font);
+}
